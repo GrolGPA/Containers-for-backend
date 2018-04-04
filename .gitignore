@@ -2,6 +2,7 @@
 .idea
 db
 tmp/
+logs/
 docker/apache/errors/*
 docker/db/ib_logfile*
 error.log

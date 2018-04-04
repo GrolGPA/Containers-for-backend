@@ -1,14 +1,16 @@
 version: '2'
 services:
         apache:
-                build: ./docker/apache
+                #build: ./docker/apache
+                image: nikitich/docker-php5-apache-zts
                 volumes:
                         - ./html:/var/www/html
                         - ./docker/apache/php.ini:/usr/local/etc/php/php.ini
                         - ./docker/apache/sites-enabled/:/etc/apache2/sites-enabled/
+                        - ./logs:/var/log/apache2/
 
-#                networks:
-#                        - backend
+                networks:
+                        - backend
                 environment:
                         VIRTUAL_HOST: backend.net
                 restart: always
@@ -22,8 +24,8 @@ services:
                         MYSQL_DATABASE: local
                         MYSQL_USER: local
                         MYSQL_PASSWORD: local
-#                networks:
-#                        - backend
+                networks:
+                        - backend
                 restart: always
 
         phpmyadmin:
@@ -34,8 +36,8 @@ services:
                         - PMA_PASSWORD=local
                 volumes:
                         - /sessions
-#                networks:
-#                        - backend
+                networks:
+                        - backend
                 environment:
                         VIRTUAL_HOST: db.backend.net
                 restart: always
@@ -45,6 +47,8 @@ services:
                 ports:
                         - "80:80"
                         - "443:443"
+                networks:
+                        - backend
                 environment:
                         DEFAULT_HOST: backend.net #default host
                         CERT_NAME: mycertificate # Wildcard Certificate name without extension
@@ -55,10 +59,5 @@ services:
                 restart: always
                 privileged: true
 
-#networks:
-#        front:
-#                external:
-#                name: front
-#        backend:
-#                internal:
-#                name: backend
+networks:
+        backend:
