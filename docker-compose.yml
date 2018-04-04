@@ -1,0 +1,64 @@
+version: '2'
+services:
+        apache:
+                build: ./docker/apache
+                volumes:
+                        - ./html:/var/www/html
+                        - ./docker/apache/php.ini:/usr/local/etc/php/php.ini
+                        - ./docker/apache/sites-enabled/:/etc/apache2/sites-enabled/
+
+#                networks:
+#                        - backend
+                environment:
+                        VIRTUAL_HOST: backend.net
+                restart: always
+
+        db:
+                image: "mariadb"
+                volumes:
+                        - ./docker/db:/var/lib/mysql
+                environment:
+                        MYSQL_ROOT_PASSWORD: root
+                        MYSQL_DATABASE: local
+                        MYSQL_USER: local
+                        MYSQL_PASSWORD: local
+#                networks:
+#                        - backend
+                restart: always
+
+        phpmyadmin:
+                image: phpmyadmin/phpmyadmin:latest
+                environment:
+                        - PMA_HOST=db
+                        - PMA_USER=local
+                        - PMA_PASSWORD=local
+                volumes:
+                        - /sessions
+#                networks:
+#                        - backend
+                environment:
+                        VIRTUAL_HOST: db.backend.net
+                restart: always
+
+        nginx-proxy:
+                image: jwilder/nginx-proxy:alpine
+                ports:
+                        - "80:80"
+                        - "443:443"
+                environment:
+                        DEFAULT_HOST: backend.net #default host
+                        CERT_NAME: mycertificate # Wildcard Certificate name without extension
+                volumes:
+                        - /var/run/docker.sock:/tmp/docker.sock:ro
+                        - ./certs:/etc/nginx/certs  #certificate path in docker container
+
+                restart: always
+                privileged: true
+
+#networks:
+#        front:
+#                external:
+#                name: front
+#        backend:
+#                internal:
+#                name: backend

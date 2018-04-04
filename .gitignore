@@ -1,0 +1,7 @@
+.directory
+.idea
+db
+tmp/
+docker/apache/errors/*
+docker/db/ib_logfile*
+error.log
