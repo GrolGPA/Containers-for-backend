@@ -1,7 +1,6 @@
 version: '2'
 services:
         apache:
-                #build: ./docker/apache
                 image: nikitich/docker-php5-apache-zts
                 volumes:
                         - ./html:/var/www/html

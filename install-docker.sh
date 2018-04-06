@@ -13,15 +13,15 @@ usermod -a -G docker $SUDO_USER
 
 #Create network:
 docker network create front
-  
-  
-#Add to /etc/hosts 
+
+
+#Add to /etc/hosts
 cp /etc/hosts /etc/hosts.bak
 DOCKER_IP=`ifconfig docker0 | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
 echo "$DOCKER_IP  backend.net" >> /etc/hosts
 echo "$DOCKER_IP  db.backend.net" >> /etc/hosts
 
- 
+su $SUDO_USER:
 #Starting container: 
 echo "Starting Docker containers..."
 #docker-compose -p backend up -d --build
