@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi 
 
 #Install docker & docker-compose
-apt-get install && sudo apt-get install docker docker-compose
+apt-get install && sudo apt-get install docker docker-compose docker.io
 #Add user to group docker:
 usermod -a -G docker $SUDO_USER
 
@@ -27,5 +27,6 @@ echo "Starting Docker containers..."
 #docker-compose -p backend up -d --build
 
 chown $SUDO_USER: -R ./
+echo "To use the Docker under a local user, you must re-log in"
 echo "To stop containers, enter command: docker-compose down"
 echo "Start the containers with the command: docker-compose up -d"
