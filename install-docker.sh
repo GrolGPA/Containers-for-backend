@@ -23,10 +23,11 @@ echo "$DOCKER_IP  db.backend.net" >> /etc/hosts
 
 su $SUDO_USER:
 #Starting container: 
-echo "Starting Docker containers..."
+#echo "Starting Docker containers..."
 #docker-compose -p backend up -d --build
 
 chown $SUDO_USER: -R ./
 echo "To use the Docker under a local user, you must re-log in"
+echo "For the first run, use command: docker-compose up -d --build"
 echo "To stop containers, enter command: docker-compose down"
 echo "Start the containers with the command: docker-compose up -d"

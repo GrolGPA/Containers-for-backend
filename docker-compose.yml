@@ -12,6 +12,7 @@ services:
                         - backend
                 environment:
                         VIRTUAL_HOST: backend.net
+                        XDEBUG_CONFIG: remote_host=172.17.0.1
                 restart: always
 
         db:
@@ -46,6 +47,7 @@ services:
                 ports:
                         - "80:80"
                         - "443:443"
+                        - '9000:9000'
                 networks:
                         - backend
                 environment:
